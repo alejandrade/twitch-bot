@@ -15,7 +15,7 @@ export interface MessageHandler {
    * @param ws The WebSocket connection (for direct responses if needed)
    * @returns The response message to send back
    */
-  handle(message: MessageRequest, ws: WebSocket): MessageResponse;
+  handle(message: MessageRequest, ws: WebSocket): Promise<MessageResponse>;
 
   /**
    * Get the event type this handler processes (for logging/debugging)

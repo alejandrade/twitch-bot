@@ -12,7 +12,7 @@ export class PingHandler implements MessageHandler {
     return isPingRequest(message);
   }
 
-  handle(message: MessageRequest, ws: WebSocket): MessageResponse {
+  async handle(message: MessageRequest, ws: WebSocket): Promise<MessageResponse> {
     if (!isPingRequest(message)) {
       throw new Error('PingHandler received non-ping message');
     }

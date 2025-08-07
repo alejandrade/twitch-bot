@@ -5,23 +5,16 @@
   "license": "MIT",
   "keywords": ["websocket", "typescript", "react", "node", "real-time"],
   "scripts": {
-    "setup": "npm run build:types && npm run install:server && npm run install:client",
-    "install:server": "cd websocket-server && npm install",
-    "install:client": "cd react-client && npm install",
-    "start": "concurrently --kill-others --kill-others-on-fail -c \"blue,green,yellow\" -n \"types,server,client\" \"npm run start:types\" \"npm run start:server\" \"npm run start:client\"",
-    "start:types": "cd shared-types && npm run watch",
-    "start:server": "cd websocket-server && npm run dev",
-    "start:client": "cd react-client && npm start",
-    "dev": "npm start",
     "build": "npm run build:types && npm run build:server && npm run build:client",
     "build:types": "cd shared-types && npm run build",
     "build:server": "cd websocket-server && npm run build",
     "build:client": "cd react-client && npm run build",
-    "clean": "npm run clean:types && npm run clean:server && npm run clean:client",
-    "clean:types": "cd shared-types && rm -rf node_modules dist",
-    "clean:server": "cd websocket-server && rm -rf node_modules dist",
-    "clean:client": "cd react-client && rm -rf node_modules dist",
-    "kill-ports": "pkill -f 'node.*ts-node|webpack.*serve|webpack-dev-server' || true"
+    "start": "npm run build:types && concurrently --kill-others -c \"blue,green\" -n \"server,client\" \"npm run start:server\" \"npm run start:client\"",
+    "start:server": "cd websocket-server && npm start",
+    "start:client": "cd react-client && npm start",
+    "dev": "npm run build:types && concurrently --kill-others -c \"blue,green\" -n \"server,client\" \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd websocket-server && npm run dev",
+    "dev:client": "cd react-client && npm run dev"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

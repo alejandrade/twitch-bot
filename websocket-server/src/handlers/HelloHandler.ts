@@ -12,7 +12,7 @@ export class HelloHandler implements MessageHandler {
     return isHelloRequest(message);
   }
 
-  handle(message: MessageRequest, ws: WebSocket): MessageResponse {
+  async handle(message: MessageRequest, ws: WebSocket): Promise<MessageResponse> {
     if (!isHelloRequest(message)) {
       throw new Error('HelloHandler received non-hello message');
     }

@@ -24,12 +24,12 @@ export class MessageHandlerRegistry {
    * @param ws The WebSocket connection
    * @returns The response message
    */
-  processRawMessage(rawMessage: string, ws: WebSocket): MessageResponse {
+  async processRawMessage(rawMessage: string, ws: WebSocket): Promise<MessageResponse> {
     console.log(`Processing raw message: ${rawMessage}`);
     
     try {
       const messageRequest: MessageRequest = JSON.parse(rawMessage);
-      return this.processMessage(messageRequest, ws);
+      return await this.processMessage(messageRequest, ws);
     } catch (error) {
       console.error(`Invalid JSON message: ${rawMessage}`, error);
       return createErrorResponse('Invalid JSON format', undefined, rawMessage);
@@ -42,13 +42,13 @@ export class MessageHandlerRegistry {
    * @param ws The WebSocket connection
    * @returns The response message
    */
-  processMessage(message: MessageRequest, ws: WebSocket): MessageResponse {
+  async processMessage(message: MessageRequest, ws: WebSocket): Promise<MessageResponse> {
     console.log(`Processing message eventType: ${message.eventType}, eventBody:`, message.eventBody);
     
     for (const handler of this.handlers) {
       if (handler.canHandle(message)) {
         console.log(`Handler found: ${handler.getEventType()}`);
-        return handler.handle(message, ws);
+        return await handler.handle(message, ws);
       }
     }
     
